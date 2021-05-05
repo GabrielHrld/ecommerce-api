@@ -41,7 +41,7 @@ export class ProductsService {
     return null
   }
 
-  delete(id){
+  delete(id: string){
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
       throw new NotFoundException(`Product #${id} not found`)
