@@ -16,10 +16,12 @@ export class ProductsService {
     },
   ];
 
+  // retorna todos los productos
   findAll() {
     return this.products;
   }
 
+  // retorna un solo producto
   findOne(id) {
     const product = this.products.find((item) => item.id === id);
     if (!product){
@@ -28,9 +30,11 @@ export class ProductsService {
     return product
   }
 
+  // actualiza un producto
   update(id, payload: UpdateProductDto){
 
     const product = this.findOne(id);
+    //validamos que haya un producto
     if (product) {
       const index = this.products.findIndex((item)=> item.id === id);
       this.products[index] = {
@@ -42,6 +46,7 @@ export class ProductsService {
     return null
   }
 
+  //eliminar producto
   delete(id: string){
     const index = this.products.findIndex((item) => item.id === id);
     if (index === -1) {
@@ -52,6 +57,7 @@ export class ProductsService {
     return true;
   }
 
+  //función para crear productos
   create(payload: CreateProductDto) {
     this.counterId += 1;
     const newProduct = {
