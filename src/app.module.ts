@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductsController } from './controllers/products/products.controller';
-import { CategoriesController } from './controllers/categories/categories.controller';
+import { ProductsController } from './products/controllers/products.controller';
+import { CategoriesController } from './products/controllers/categories.controller';
 import { OrdersController } from './controllers/orders/orders.controller';
-import { UsersController } from './controllers/users/users.controller';
-import { CustomersController } from './controllers/customers/customers.controller';
-import { BrandsController } from './controllers/brands/brands.controller';
-import { ProductsService } from './services/products/products.service';
-import { CategoriesService } from './services/categories/categories.service';
+import { UsersController } from './users/controllers/users.controller';
+import { CustomersController } from './users/controllers/customers.controller';
+import { BrandsController } from './products/controllers/brands.controller';
+import { ProductsService } from './products/services/products.service';
+import { CategoriesService } from './products/services/categories.service';
 
 @Module({
   imports: [],
