@@ -38,7 +38,7 @@ export class CustomersService {
     const customer = this.findOne(id);
     //validamos que haya un cliente
     if (customer) {
-      const index = this.customers.findIndex((item)=> item.id === id);
+      const index = this.customers.indexOf(customer);
       this.customers[index] = {
         ...customer,
         ...payload,
@@ -50,7 +50,9 @@ export class CustomersService {
 
   //eliminar cliente
   delete(id: any){
-    const index = this.customers.findIndex((item) => item.id === id);
+    const customer = this.findOne(id);
+    const index = this.customers.indexOf(customer);
+    console.log(`index ${index}`)
     if (index === -1) {
       throw new NotFoundException(`Customer #${id} not found`)
     }

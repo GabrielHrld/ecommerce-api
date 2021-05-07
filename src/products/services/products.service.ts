@@ -7,7 +7,7 @@ export class ProductsService {
   private counterId = 1;
   private products: Product[] = [
     {
-      id: '1',
+      id: 1,
       name: 'Product 1',
       description: 'Bla Bla Bla Bla Bla Bla ',
       price: 123,
@@ -22,8 +22,9 @@ export class ProductsService {
   }
 
   // retorna un solo producto
-  findOne(id) {
-    const product = this.products.find((item) => item.id === id);
+  findOne(id: any) {
+    const identifier = parseInt(id)
+    const product = this.products.find((item) => item.id === identifier);
     if (!product){
       throw new NotFoundException(`Product #${id} not found`)
     }
@@ -36,7 +37,7 @@ export class ProductsService {
     const product = this.findOne(id);
     //validamos que haya un producto
     if (product) {
-      const index = this.products.findIndex((item)=> item.id === id);
+      const index = this.products.indexOf(product);
       this.products[index] = {
         ...product,
         ...payload,
@@ -48,7 +49,9 @@ export class ProductsService {
 
   //eliminar producto
   delete(id: string){
-    const index = this.products.findIndex((item) => item.id === id);
+    const product = this.findOne(id);
+
+    const index = this.products.indexOf(product);
     if (index === -1) {
       throw new NotFoundException(`Product #${id} not found`)
     }

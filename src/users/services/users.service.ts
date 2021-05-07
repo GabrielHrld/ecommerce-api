@@ -33,11 +33,11 @@ export class UsersService {
 
   // actualiza un usuario
   update(id, payload: UpdateUserDto){
-
     const user = this.findOne(id);
     //validamos que haya un usuario
     if (user) {
-      const index = this.users.findIndex((item)=> item.id === id);
+      
+      const index = this.users.indexOf(user)
       this.users[index] = {
         ...user,
         ...payload,
@@ -49,7 +49,8 @@ export class UsersService {
 
   //eliminar usuario
   delete(id: any){
-    const index = this.users.findIndex((item) => item.id === id);
+    const user = this.findOne(id);
+    const index = this.users.indexOf(user);
     if (index === -1) {
       throw new NotFoundException(`User #${id} not found`)
     }

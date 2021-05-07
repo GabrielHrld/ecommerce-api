@@ -27,14 +27,14 @@ export class CustomersController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id') id: string, @Body() payload: any){
+  update(@Param('id') id: any, @Body() payload: any){
     console.log(id)
     return this.customersService.update(id, payload);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: number){
+  delete(@Param('id') id: any){
     return this.customersService.delete(id)
   }
 }
