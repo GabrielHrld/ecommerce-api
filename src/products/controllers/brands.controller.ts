@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import {BrandsService} from '../services/brand.service';
 import { CreateBrandDto, UpdateBrandDto } from "../dtos/brands.dto";
 
@@ -16,7 +16,7 @@ export class BrandsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getBrand(@Param(':id') id: any){
+  getBrand(@Param(':id', ParseIntPipe) id: any){
     return this.brandsService.findOne(id) 
   }
   @Post()
@@ -27,13 +27,13 @@ export class BrandsController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id') id: any, @Body() payload: UpdateBrandDto){
+  update(@Param('id', ParseIntPipe) id: any, @Body() payload: UpdateBrandDto){
     return this.brandsService.update(id, payload);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: any){
+  delete(@Param('id', ParseIntPipe) id: any){
     return this.brandsService.delete(id)
   }
 }

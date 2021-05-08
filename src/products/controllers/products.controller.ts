@@ -9,8 +9,8 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { ParseIntPipe } from "../../common/parse-int.pipe";
 import { ProductsService } from "../services/products.service";
 import { CreateProductDto, UpdateProductDto	} from '../dtos/products.dtos'
 
@@ -45,13 +45,13 @@ export class ProductsController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id') id: any, @Body() payload: UpdateProductDto) {
+  update(@Param('id', ParseIntPipe) id: any, @Body() payload: UpdateProductDto) {
     return this.productsService.update(id, payload)
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: any) {
+  delete(@Param('id', ParseIntPipe) id: any) {
     return this.productsService.delete(id);
   }
 }

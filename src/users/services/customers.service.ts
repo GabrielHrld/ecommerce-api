@@ -24,8 +24,8 @@ export class CustomersService {
 
   // retorna un solo cliente
   findOne(id: any) {
-    const identifier = parseInt(id);
-    const customer = this.customers.find((item) => item.id === identifier);
+    // const identifier = parseInt(id);
+    const customer = this.customers.find((item) => item.id === id);
     if (!customer){
       throw new NotFoundException(`Customer #${id} not found`)
     }

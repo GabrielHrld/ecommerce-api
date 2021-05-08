@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode, HttpStatus, } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode, HttpStatus, ParseIntPipe, } from '@nestjs/common';
 import { CustomersService } from "../services/customers.service";
 
 @Controller('customers')
@@ -15,7 +15,7 @@ export class CustomersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOneCustomer(@Param('id') id: any){
+  getOneCustomer(@Param('id', ParseIntPipe) id: any){
     return this.customersService.findOne(id)
   }
 
@@ -27,14 +27,14 @@ export class CustomersController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id') id: any, @Body() payload: any){
+  update(@Param('id', ParseIntPipe) id: any, @Body() payload: any){
     console.log(id)
     return this.customersService.update(id, payload);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: any){
+  delete(@Param('id', ParseIntPipe) id: any){
     return this.customersService.delete(id)
   }
 }

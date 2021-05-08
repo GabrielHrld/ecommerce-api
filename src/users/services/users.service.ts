@@ -23,8 +23,7 @@ export class UsersService {
 
   // retorna un solo usuario
   findOne(id: any) {
-    const identifier = parseInt(id);
-    const user = this.users.find((item) => item.id === identifier);
+    const user = this.users.find((item) => item.id === id);
     if (!user){
       throw new NotFoundException(`User #${id} not found`)
     }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, HttpCode, HttpStatus, } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, HttpCode, HttpStatus, ParseIntPipe, } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/users.dto';
 import { UsersService} from '../services/users.service'
 
@@ -14,9 +14,12 @@ export class UsersController {
     return this.usersService.findAll()
   }
 
+  @Get(':id/orders')
+  getOrders(@Param('id', ParseIntPipe) id){}
+
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getUser(@Param('id') id: any){
+  getUser(@Param('id', ParseIntPipe) id: any){
     return this.usersService.findOne(id);
   }
 
@@ -28,13 +31,13 @@ export class UsersController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id') id: any, @Body() payload: any){
+  update(@Param('id', ParseIntPipe) id: any, @Body() payload: any){
     return this.usersService.update(id, payload)
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: any){
+  delete(@Param('id', ParseIntPipe) id: any){
     return this.usersService.delete(id);
   }
 }

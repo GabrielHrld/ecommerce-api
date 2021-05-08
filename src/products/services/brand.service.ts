@@ -18,8 +18,7 @@ export class BrandsService {
   }
 
   findOne(id: any) {
-    const identifier = parseInt(id)
-    const category = this.brands.find((item) => item.id === identifier);
+    const category = this.brands.find((item) => item.id === id);
     if (!category){
       throw new NotFoundException(`Category #${id} not found`)
     }

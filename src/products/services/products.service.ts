@@ -23,8 +23,7 @@ export class ProductsService {
 
   // retorna un solo producto
   findOne(id: any) {
-    const identifier = parseInt(id)
-    const product = this.products.find((item) => item.id === identifier);
+    const product = this.products.find((item) => item.id === id);
     if (!product){
       throw new NotFoundException(`Product #${id} not found`)
     }
