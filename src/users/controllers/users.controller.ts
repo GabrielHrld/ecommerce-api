@@ -15,7 +15,9 @@ export class UsersController {
   }
 
   @Get(':id/orders')
-  getOrders(@Param('id', ParseIntPipe) id){}
+  getOrders(@Param('id', ParseIntPipe) id: any){
+    return this.usersService.getOrderByUser(id)
+  }
 
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
