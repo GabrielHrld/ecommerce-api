@@ -11,7 +11,7 @@ export class UsersController {
   @Get()
   @HttpCode(HttpStatus.OK)
   getUsers(){
-    return this.usersService.findAll()
+    return this.usersService.findAll().find().toArray();
   }
 
   @Get(':id/orders')

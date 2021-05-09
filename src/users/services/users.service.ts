@@ -1,13 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService, ConfigType } from "@nestjs/config";
 import { User } from '../entities/users.entity';
 import { CreateUserDto, UpdateUserDto} from '../dtos/users.dto'
 import { Order } from '../entities/order.entity';
 import { ProductsService } from 'src/products/services/products.service';
+import config from '../../utils/config'
+import { Db } from "mongodb";
 
 @Injectable()
 export class UsersService {
   constructor(
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    @Inject('MONGO') private database:Db
   ){}
   private counterId = 1;
   private users: User[] = [
@@ -23,7 +27,8 @@ export class UsersService {
 
   // retorna todos los usuarios
   findAll() {
-    return this.users;
+    return this.database.collection('test')
+    // return this.users;
   }
 
   // retorna un solo usuario
