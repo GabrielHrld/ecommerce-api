@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Put, Delete, Param, HttpCode, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import {BrandsService} from '../services/brand.service';
 import { CreateBrandDto, UpdateBrandDto } from "../dtos/brands.dto";
+import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 @Controller('brands')
 export class BrandsController {
@@ -16,9 +17,11 @@ export class BrandsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getBrand(@Param(':id', ParseIntPipe) id: any){
+  getBrand(@Param('id', MongoIdPipe) id: any){
+    console.log(id)
     return this.brandsService.findOne(id) 
   }
+  
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: CreateBrandDto){
@@ -27,13 +30,13 @@ export class BrandsController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id', ParseIntPipe) id: any, @Body() payload: UpdateBrandDto){
+  update(@Param('id', MongoIdPipe) id: any, @Body() payload: UpdateBrandDto){
     return this.brandsService.update(id, payload);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id', ParseIntPipe) id: any){
+  delete(@Param('id', MongoIdPipe) id: any){
     return this.brandsService.delete(id)
   }
 }

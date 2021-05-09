@@ -15,26 +15,26 @@ export class CustomersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOneCustomer(@Param('id', ParseIntPipe) id: any){
+  getOneCustomer(@Param('id') id: any){
     return this.customersService.findOne(id)
   }
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: any){
-    return this.customersService.create(payload);
-  }
+  // @Post()
+  // @HttpCode(HttpStatus.CREATED)
+  // create(@Body() payload: any){
+  //   return this.customersService.create(payload);
+  // }
 
-  @Put(':id')
-  @HttpCode(HttpStatus.CREATED)
-  update(@Param('id', ParseIntPipe) id: any, @Body() payload: any){
-    console.log(id)
-    return this.customersService.update(id, payload);
-  }
+  // @Put(':id')
+  // @HttpCode(HttpStatus.CREATED)
+  // update(@Param('id') id: any, @Body() payload: any){
+  //   console.log(id)
+  //   return this.customersService.update(id, payload);
+  // }
 
-  @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  delete(@Param('id', ParseIntPipe) id: any){
-    return this.customersService.delete(id)
-  }
+  // @Delete(':id')
+  // @HttpCode(HttpStatus.OK)
+  // delete(@Param('id') id: any){
+  //   return this.customersService.delete(id)
+  // }
 }

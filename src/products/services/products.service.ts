@@ -1,73 +1,55 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose'
+import {Model} from 'mongoose'
+
 import { Product } from '../entities/products.entity';
 import { CreateProductDto, UpdateProductDto} from '../dtos/products.dtos'
 
 @Injectable()
 export class ProductsService {
-  private counterId = 1;
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'Bla Bla Bla Bla Bla Bla ',
-      price: 123,
-      stock: 10,
-      image: '',
-    },
-  ];
+  constructor(
+    @InjectModel(Product.name) private productModel: Model<Product>
+  ){}
 
   // retorna todos los productos
-  findAll() {
-    return this.products;
+  async findAll() {
+    const all = await this.productModel.find().exec()
+    return all
   }
 
   // retorna un solo producto
-  findOne(id: any) {
-    const product = this.products.find((item) => item.id === id);
+  async findOne(id: any) {
+    const product = await this.productModel.findById(id).exec();
     if (!product){
       throw new NotFoundException(`Product #${id} not found`)
     }
     return product
   }
 
-  // actualiza un producto
-  update(id, payload: UpdateProductDto){
+ //función para crear productos
+  async create(data: CreateProductDto) {
+    const newProduct = await new this.productModel(data)
+    return newProduct.save();
+  }
 
-    const product = this.findOne(id);
-    //validamos que haya un producto
-    if (product) {
-      const index = this.products.indexOf(product);
-      this.products[index] = {
-        ...product,
-        ...payload,
-      };
-      return this.products[index];
-    }
-    return null
+  // actualiza un producto
+  async update(id: any, changes: UpdateProductDto){
+    //$set me permite no reemplazar el objeto por completo, si no, sólo los campos sujetos a cambios
+      const product = await this.productModel.findByIdAndUpdate(id, {$set: changes}, {new: true}).exec()
+      if (!product) {
+        throw new NotFoundException(`Product #${id} not found`)
+      }
+      return product
   }
 
   //eliminar producto
-  delete(id: string){
-    const product = this.findOne(id);
-
-    const index = this.products.indexOf(product);
-    if (index === -1) {
+  async delete(id: any){
+    const product = await this.productModel.findByIdAndDelete(id).exec();
+    if (!product) {
       throw new NotFoundException(`Product #${id} not found`)
     }
-
-    this.products.splice(index, 1);
-    return true;
+    return true
   }
 
-  //función para crear productos
-  create(payload: CreateProductDto) {
-    this.counterId += 1;
-    const newProduct = {
-      id: this.counterId,
-      ...payload,
-    };
-    this.products.push(newProduct);
-
-    return newProduct;
-  }
+ 
 }

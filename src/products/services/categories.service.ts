@@ -1,63 +1,48 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from "@nestjs/mongoose";
+import {Model} from 'mongoose'
+
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categories.dto';
 import { Category } from '../entities/categories.entity';
 
 @Injectable()
 export class CategoriesService {
-  private counterId = 1;
-  private categories: Category[] = [
-    {
-      id: 1,
-      name: 'Category 1'
-    },
-  ];
+  constructor(
+    @InjectModel(Category.name) private categoryModel: Model<Category>
+  ){}
 
-  findAll(){
-    return this.categories;
+  async findAll(){
+    const all = await this.categoryModel.find().exec()
+    return all;
   }
 
-  findOne(id: any) {
-    const category = this.categories.find((item) => item.id === id);
+  async findOne(id: any) {
+    const category = await this.categoryModel.findById(id).exec()
     if (!category){
       throw new NotFoundException(`Category #${id} not found`)
     }
     return category;
   }
 
-  create(payload: CreateCategoryDto){
-    this.counterId += 1;
-    const newCategory = {
-      id: this.counterId,
-      ...payload,
-    };
-    this.categories.push(newCategory);
-
-    return newCategory;
+  create(data: CreateCategoryDto){
+    const newCategory = new this.categoryModel(data)
+    return newCategory.save();
   }
 
-  update(id, payload: UpdateCategoryDto){
-
-    const category = this.findOne(id);
-    //validamos que haya una categoría
-    if (category) {
-      const index = this.categories.indexOf(category);
-      this.categories[index] = {
-        ...category,
-        ...payload,
-      };
-      return this.categories[index];
+  async update(id, data: UpdateCategoryDto){
+    const category = await this.categoryModel.findByIdAndUpdate(id, {$set: data}, {new: true}).exec()
+    if(!category){
+      throw new NotFoundException(`Category ${id} not found`)
     }
-    return null
+    
+    return category
   }
 
-  delete(id: any){
-    const category = this.findOne(id);
-    const index = this.categories.indexOf(category)
-    if (index === -1) {
+  async delete(id: any){
+    const category = await this.categoryModel.findByIdAndDelete(id).exec()
+    if (!category) {
       throw new NotFoundException(`Category #${id} not found`)
     }
-
-    this.categories.splice(index, 1);
     return true;
   }
 }
