@@ -11,7 +11,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
+import { CreateProductDto, UpdateProductDto, FilterProductsDto } from '../dtos/products.dtos';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 @Controller('products')
@@ -21,11 +21,9 @@ export class ProductsController {
   @Get('')
   @HttpCode(HttpStatus.OK)
   getProducts(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
+    @Query() params: FilterProductsDto
   ) {
-    return this.productsService.findAll();
+    return this.productsService.findAll(params);
   }
 
   @Get(':id')
