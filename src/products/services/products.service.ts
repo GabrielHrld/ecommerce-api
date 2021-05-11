@@ -22,9 +22,9 @@ export class ProductsService {
         //$gte y $lte reciben minimo y máximo para formar un rango
         filters.price = {$gte: minPrice, $lte: maxPrice};
       }
-      return this.productModel.find(filters).skip(offset).limit(limit).exec();
+      return this.productModel.find(filters).populate('brand').skip(offset).limit(limit).exec();
     }
-    const all = await this.productModel.find().exec();
+    const all = await this.productModel.find().populate('brand').exec();
     return all;
   }
 
