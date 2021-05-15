@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -30,7 +30,7 @@ export class UsersService {
   }
 
   // actualiza un usuario
-  async update(id, data: UpdateUserDto) {
+  async update(id: any, data: UpdateUserDto) {
     const user = await this.userModel
       .findByIdAndUpdate(id, { $set: data }, { new: true })
       .exec();
@@ -51,8 +51,8 @@ export class UsersService {
   }
 
   // //función para crear usuarios
-  async create(data: CreateUserDto) {
-    const newUser = await new this.userModel(data);
+  create(data: CreateUserDto) {
+    const newUser = new this.userModel(data);
     return newUser.save();
   }
 
