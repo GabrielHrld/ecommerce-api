@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 import { User } from '../entities/users.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/users.dto';
@@ -51,9 +56,23 @@ export class UsersService {
   }
 
   // //función para crear usuarios
-  create(data: CreateUserDto) {
+  async create(data: CreateUserDto) {
     const newUser = new this.userModel(data);
-    return newUser.save();
+    //validamos que el email ya no se encuentre en la DB
+    const { email } = newUser;
+    const hasEmail = await this.userModel.find({ email });
+    if (hasEmail.length == 1)
+      throw new NotAcceptableException('Choose another email to register');
+
+    const hashPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashPassword;
+    const model = await newUser.save();
+    const { password, ...rta } = model.toJSON();
+    return rta;
+  }
+
+  findByEmail(email: string) {
+    return this.userModel.findOne({ email }).exec();
   }
 
   async getOrderByUser(id: any) {

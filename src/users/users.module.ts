@@ -28,6 +28,7 @@ import { OrderService } from './services/order.service';
     }
   ]),ProductsModule],
   controllers: [UsersController, CustomersController, OrderController],
-  providers: [UsersService, CustomersService, OrderService]
+  providers: [UsersService, CustomersService, OrderService],
+  exports: [UsersService]
 })
 export class UsersModule {}
