@@ -10,7 +10,7 @@ import { User, UserSchema } from './entities/users.entity';
 import { CustomersService } from './services/customers.service';
 import { UsersService } from './services/users.service';
 import { OrderController } from './controllers/order.controller'
-import { OrderService } from './services/order.service';
+import { OrderService }from './services/order.service';
 
 @Module({
   imports: [MongooseModule.forFeature([
