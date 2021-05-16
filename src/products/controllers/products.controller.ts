@@ -9,15 +9,21 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
+
 import { CreateProductDto, UpdateProductDto, FilterProductsDto } from '../dtos/products.dtos';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
+@UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
+  @Public()
   @Get('')
   @HttpCode(HttpStatus.OK)
   getProducts(
