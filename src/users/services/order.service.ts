@@ -2,18 +2,24 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateOrderDto, UpdateOrderDto, AddProductsToOrderDto } from '../dtos/order.dto';
+import {
+  CreateOrderDto,
+  UpdateOrderDto,
+  AddProductsToOrderDto,
+} from '../dtos/order.dto';
 import { Order } from '../entities/order.entity';
 
 @Injectable()
 export class OrderService {
-  constructor(
-    @InjectModel(Order.name) private orderModel: Model<Order>,
-  ) {}
+  constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
 
   // retorna todas las ordenes
   async findAll() {
-    const all = await this.orderModel.find().populate('customer').populate('products').exec();
+    const all = await this.orderModel
+      .find()
+      .populate('customers')
+      .populate('products')
+      .exec();
     return all;
   }
 
@@ -48,24 +54,29 @@ export class OrderService {
   }
 
   //función para crear ordenes
-  async create(data: CreateOrderDto) {
-    const newOrder = await new this.orderModel(data);
+  create(data: CreateOrderDto) {
+    const newOrder = new this.orderModel(data);
     return newOrder.save();
   }
 
   //removemos un producto de la orden
-  async removeProduct(id: any, productId: any){
-    const order = await this.orderModel.findById(id)
+  async removeProduct(id: any, productId: any) {
+    const order = await this.orderModel.findById(id);
     order.products.pull(productId);
-    return order.save()
+    return order.save();
   }
 
-  async addProduct(id: any, productsIds: string[]){
+  async addProduct(id: any, productsIds: string[]) {
     const order = await this.orderModel.findById(id);
-    productsIds.forEach(itemId => {
-      order.products.push(itemId)
+    productsIds.forEach((itemId) => {
+      order.products.push(itemId);
     });
 
     return order.save();
+  }
+
+  async ordersByUser(customerId: string) {
+    return this.orderModel.find({
+      where:{customer: customerId}});
   }
 }
