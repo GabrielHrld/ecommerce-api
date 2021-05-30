@@ -5,15 +5,40 @@ import { Customers } from './customers.entity';
 
 @Schema()
 export class Order extends Document{
-  @Prop({type: Date})
-  date: Date;
+  
+  @Prop({required: true})
+  name: string;
 
-  @Prop({type: Types.ObjectId, ref: Customers.name, required: true})
-  customer: Customers | Types.ObjectId;
+  @Prop({required: true})
+  lastname: string;
+  
+  @Prop({required: true})
+  DNI: string;
 
-  //solicitamos un array el cuál contenga objetos y dentro el tipo y ref correspondiente
-  @Prop({type: [{type: Types.ObjectId, ref: Product.name}]})
-  products: Types.Array<Product>;
+  @Prop({required: true})
+  state: string;
+
+  @Prop({required: true})
+  address: string;
+
+  @Prop({required: true})
+  postal: number;
+
+  @Prop({required: true})
+  email: string;
+
+  @Prop({required: true})
+  phone: string;
+
+  @Prop({type: Array, required: true})
+  products: object[];
+
+  @Prop({required: true})
+  status: string;
+
+  @Prop({required: true})
+  date: string;
+
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order)

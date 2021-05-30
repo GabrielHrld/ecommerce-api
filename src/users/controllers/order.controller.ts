@@ -39,16 +39,16 @@ export class OrderController {
     return this.orderService.delete(id)
   }
 
-  @Delete(':id/products/:productId')
-  @HttpCode(HttpStatus.OK)
-  deleteProduct(@Param('id', MongoIdPipe) id: any, @Param('productId', MongoIdPipe) productId: any){
-    return this.orderService.removeProduct(id, productId)
-  }
+  // @Delete(':id/products/:productId')
+  // @HttpCode(HttpStatus.OK)
+  // deleteProduct(@Param('id', MongoIdPipe) id: any, @Param('productId', MongoIdPipe) productId: any){
+  //   return this.orderService.removeProduct(id, productId)
+  // }
 
-  @Put(':id/products')
-  @HttpCode(HttpStatus.CREATED)
-  updateProducts(@Param('id', MongoIdPipe) id: any, @Body() payload: AddProductsToOrderDto){
-    console.log(id)
-    return this.orderService.addProduct(id, payload.productsIds);
-  }
+  // @Put(':id/products')
+  // @HttpCode(HttpStatus.CREATED)
+  // updateProducts(@Param('id', MongoIdPipe) id: any, @Body() payload: AddProductsToOrderDto){
+  //   console.log(id)
+  //   return this.orderService.addProduct(id, payload.productsIds);
+  // }
 }

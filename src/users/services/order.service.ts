@@ -59,21 +59,21 @@ export class OrderService {
     return newOrder.save();
   }
 
-  //removemos un producto de la orden
-  async removeProduct(id: any, productId: any) {
-    const order = await this.orderModel.findById(id);
-    order.products.pull(productId);
-    return order.save();
-  }
+  // //removemos un producto de la orden
+  // async removeProduct(id: any, productId: any) {
+  //   const order = await this.orderModel.findById(id);
+  //   order.products.pull(productId);
+  //   return order.save();
+  // }
 
-  async addProduct(id: any, productsIds: string[]) {
-    const order = await this.orderModel.findById(id);
-    productsIds.forEach((itemId) => {
-      order.products.push(itemId);
-    });
+  // async addProduct(id: any, productsIds: string[]) {
+  //   const order = await this.orderModel.findById(id);
+  //   productsIds.forEach((itemId) => {
+  //     order.products.push(itemId);
+  //   });
 
-    return order.save();
-  }
+  //   return order.save();
+  // }
 
   async ordersByUser(customerId: string) {
     return this.orderModel.find({

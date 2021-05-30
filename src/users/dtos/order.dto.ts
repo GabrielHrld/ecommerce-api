@@ -1,18 +1,51 @@
 import { OmitType, PartialType } from "@nestjs/mapped-types";
-import { IsArray, IsDate, IsEmail, IsMongoId, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsArray, IsDate, IsEmail, IsMongoId, IsNotEmpty, IsNumber, IsPhoneNumber, IsString, Length } from "class-validator";
 
 export class CreateOrderDto{
   @IsNotEmpty()
-  @IsMongoId()
-  readonly customer: string;
+  @IsString()
+  readonly name: string;
 
-  @IsDate()
   @IsNotEmpty()
-  readonly date: Date;
+  @IsString()
+  readonly lastname: string;
 
+  @IsNotEmpty()
+  @IsString()
+  readonly DNI: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  readonly state: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly address: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly postal: number;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly phone: string;
+
+  
   @IsArray()
   @IsNotEmpty()
-  readonly products: string[];
+  readonly products: object[];
+  
+  @IsNotEmpty()
+  @IsString()
+  readonly status: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly date: string;
 }
 
 export class UpdateOrderDto extends PartialType(
@@ -22,5 +55,5 @@ export class UpdateOrderDto extends PartialType(
 export class AddProductsToOrderDto{
    @IsArray()
    @IsNotEmpty()
-  readonly productsIds: string[];
+  readonly productsIds: object[];
 }
