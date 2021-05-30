@@ -7,8 +7,6 @@ import {
   IsOptional,
   Min,
   ValidateIf,
-  ValidateNested,
-  IsMongoId,
 } from 'class-validator';
 import { PartialType } from "@nestjs/mapped-types";
 import { CreateCategoryDto } from './categories.dto';
@@ -37,12 +35,9 @@ export class CreateProductDto {
   readonly image: string;
 
   @IsNotEmpty()
-  @ValidateNested()
-  readonly category: CreateCategoryDto 
+  @IsString()
+  readonly category: string 
 
-  @IsNotEmpty()
-  @IsMongoId()
-  readonly brand: string
 }
 
 //  PartialType obtiene los datos de la clase Create y hace opcionales sus atributos

@@ -22,9 +22,9 @@ import {ConfigModule} from '@nestjs/config'
       useFactory: () =>{
         return {
           secret: `${process.env.JWT_SECRET}`,
-          signOptions: {
-            expiresIn: '15m'
-          }
+          // signOptions: {
+          //   expiresIn: '15m'
+          // }
         }
       }
     })

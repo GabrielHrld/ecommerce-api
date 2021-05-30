@@ -19,16 +19,9 @@ export class Product extends Document {
   @Prop({ required: true })
   image: string;
 
-  @Prop(
-    raw({
-      name: { type: String },
-      image: { type: String },
-    }),
-  )
-  category: Record<string, any>;
+  @Prop({required: true})
+  category: string
 
-  @Prop({ type: Types.ObjectId, ref: Brand.name })
-  brand: Brand | Types.ObjectId;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

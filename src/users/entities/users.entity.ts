@@ -14,8 +14,16 @@ export class User extends Document{
   email: string;
 
   @Prop({required: true})
+  phone: string;
+
+  @Prop({required: true})
   password: string;
 
+  @Prop()
+  promo: boolean;
+
+  @Prop({required: true})
+  createdAt: string;
   @Prop({required: true})
   role: string;
 }

@@ -13,12 +13,16 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string) {
+  async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     //validamos que haya un usuario antes de matchear las contraseñas
+    console.log(user.password)
     if (user) {
-      const isMatch = await bcrypt.compare(pass, user.password);
+      console.log(password)
+      const isMatch = await bcrypt.compare(password, user.password);
+      console.log(isMatch)
       if (user && isMatch) {
+        console.log(user)
         const { password, ...rta } = user.toJSON();
         return rta;
       }
